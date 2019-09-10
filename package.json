@@ -16,6 +16,8 @@
   },
   "main": "app.js",
   "devDependencies": {},
+    "nodemon": "^1.19.2"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bethel-school-of-technology/soundbridge-backend.git"
