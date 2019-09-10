@@ -11,6 +11,20 @@
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
+    "mongodb": "^3.3.2",
     "morgan": "~1.9.1"
-  }
+  },
+  "main": "app.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bethel-school-of-technology/soundbridge-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bethel-school-of-technology/soundbridge-backend/issues"
+  },
+  "homepage": "https://github.com/bethel-school-of-technology/soundbridge-backend#readme",
+  "description": ""
 }
