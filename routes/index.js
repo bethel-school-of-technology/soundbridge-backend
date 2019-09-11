@@ -2,11 +2,12 @@ var express = require('express');
 var router = express.Router();
 var request = require('request');
 var SPOTIFY_CLIENT_ID = "94f0fc9ce18b4809bf951ec27dee0021";
-var redirect_uri = 'http://localhost:3000/logged-in';
+var SPOTIFY_CLIENT_SECRET = "88c179d7425449beb19bacd9d5146fad";
+var redirect_uri = 'http://localhost:3001/callback';
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index');
 });
 
 router.get('/login', function (req, res) {
@@ -25,20 +26,17 @@ router.get('/callback', function(req, res) {
     form: {
       code: code,
       redirect_uri,
-      grant_type: 'authorization_code'
-    },
-    headers: {
-      'Authorization': 'Basic ' + (new Buffer(
-        process.env.SPOTIFY_CLIENT_ID
-      ).toString('base64'))
+      grant_type: 'authorization_code',
+      client_id: SPOTIFY_CLIENT_ID,
+      client_secret: SPOTIFY_CLIENT_SECRET
     },
     json: true
   }
   request.post(authOptions, function(error, response, body) {
-    var access_token = body.access_token
+    var access_token = body.access_token;
     let uri = 'http://localhost:3000/logged-in'
     res.redirect(uri + '?access_token=' + access_token)
-  })
-})
+  });
+});
 
 module.exports = router;
