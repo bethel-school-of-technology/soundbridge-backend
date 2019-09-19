@@ -1,18 +1,33 @@
 const express = require('express');
 const router = express.Router();
 const request = require('request');
-let User = require('../models/users.model');
+let User = require('../models/User');
 const SPOTIFY_CLIENT_ID = "94f0fc9ce18b4809bf951ec27dee0021";
 const SPOTIFY_CLIENT_SECRET = "88c179d7425449beb19bacd9d5146fad";
 const redirect_uri = 'http://localhost:3001/callback';
 
-/* GET home page. */
 
-router.get('/', function (req, res, next) {
-  res.render('index');
+/* User Login */
+
+router.post('/login', (req, res) => {
+  const { body } = req;
+  const { email, password } = body;
+  if (!email) {
+    console.log('not working yet');
+  }
+
+  User.findOne({
+    email: email,
+    password: password
+  }, (e, user) => {
+    console.log(req.body);
+    res.send(user);
+  });
 });
 
-router.get('/login', function (req, res) {
+/* Spotify Login */
+
+router.get('/spotify-login', function (req, res) {
   var scopes = 'user-read-private user-read-email';
   res.redirect('https://accounts.spotify.com/authorize' +
     '?response_type=code' +
@@ -21,7 +36,9 @@ router.get('/login', function (req, res) {
     '&redirect_uri=' + redirect_uri );
 });
 
-/* Callback after Logged in to Sporify */
+
+
+/* Callback after Logged in to Spotify */
 
 router.get('/callback', function(req, res) {
   let code = req.query.code || null
@@ -38,7 +55,7 @@ router.get('/callback', function(req, res) {
   }
   request.post(authOptions, function(error, response, body) {
     var access_token = body.access_token;
-    let uri = 'http://localhost:3000/logged-in'
+    let uri = 'http://localhost:3000/spotify-logged-in'
     res.redirect(uri + '?access_token=' + access_token)
   });
 });
