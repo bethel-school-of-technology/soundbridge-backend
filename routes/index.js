@@ -54,9 +54,29 @@ router.get('/callback', function(req, res) {
     json: true
   }
   request.post(authOptions, function(error, response, body) {
+    var refresh_token = body.refresh_token;
     var access_token = body.access_token;
     let uri = 'http://localhost:3000/spotify-logged-in'
-    res.redirect(uri + '?access_token=' + access_token)
+    res.redirect(uri + '?access_token=' + access_token + '&refresh_token=' + refresh_token);
+  });
+});
+
+/* Login with Spotify already linked */
+
+router.post('/has-spotify/:refresh_token', (req, res) => {
+  let refresh_token = req.params.refresh_token;
+  let authOptions = {
+    url: 'https://accounts.spotify.com/api/token',
+    form: {
+      grant_type: 'refresh_token',
+      refresh_token,
+      client_id: SPOTIFY_CLIENT_ID,
+      client_secret: SPOTIFY_CLIENT_SECRET
+    },
+    json: true
+  }
+  request.post(authOptions, (error, response, body) => {
+    res.send(body.access_token);
   });
 });
 
