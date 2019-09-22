@@ -30,6 +30,11 @@ const UserSchema = new mongoose.Schema({
         default: null,
         required: true
     },
+    spotifyRefreshToken: {
+        type: String,
+        default: null,
+        required: true
+    },
     date: {
         type: Date,
         default: Date.now,
