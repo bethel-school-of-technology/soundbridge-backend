@@ -27,7 +27,14 @@ router.post('/register', async (req, res, next) => {
     });
     try {
         const savedUser = await user.save();
-        res.send({user: user._id});
+        res.send({
+            userId: user._id,
+            name: user.name,
+            email: user.email,
+            spotify: user.spotify,
+            spotifyId: user.spotifyId,
+            spotifyRefreshToken: user.spotifyRefreshToken
+        });
     } catch (err) {
         res.status(400).send(err);
     }
@@ -49,10 +56,10 @@ router.post('/login',  async (req,res) => {
     if(!validPass) return res.status(400).send("Invalid Password");
 
     //Create and Assign a JWT
-    const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
-    res.header('auth-Token', token).send(token);
+    // const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
+    // res.header('auth-Token', token).send(token);
 
-    res.redirect(`http://localhost:3000/user/${user._id}`);
+    res.send(user);
  
 })
 

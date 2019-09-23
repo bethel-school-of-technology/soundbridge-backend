@@ -1,29 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const request = require('request');
-let User = require('../models/User');
+
+// For passport
+// const validateRegisterInput = require('../services/register');
+const User = require('../models/User');
 const SPOTIFY_CLIENT_ID = "94f0fc9ce18b4809bf951ec27dee0021";
 const SPOTIFY_CLIENT_SECRET = "88c179d7425449beb19bacd9d5146fad";
 const redirect_uri = 'http://localhost:3001/callback';
 
-
-/* User Login */
-
-router.post('/login', (req, res) => {
-  const { body } = req;
-  const { email, password } = body;
-  if (!email) {
-    console.log('not working yet');
-  }
-
-  User.findOne({
-    email: email,
-    password: password
-  }, (e, user) => {
-    console.log(req.body);
-    res.send(user);
-  });
-});
 
 /* Spotify Login */
 
@@ -32,15 +17,13 @@ router.get('/spotify-login', function (req, res) {
   res.redirect('https://accounts.spotify.com/authorize' +
     '?response_type=code' +
     '&client_id=' + SPOTIFY_CLIENT_ID +
-    (scopes ? '&scope=' + encodeURIComponent(scopes) : '') + 
-    '&redirect_uri=' + redirect_uri );
+    (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
+    '&redirect_uri=' + redirect_uri);
 });
-
-
 
 /* Callback after Logged in to Spotify */
 
-router.get('/callback', function(req, res) {
+router.get('/callback', function (req, res) {
   let code = req.query.code || null
   let authOptions = {
     url: 'https://accounts.spotify.com/api/token',
@@ -53,12 +36,28 @@ router.get('/callback', function(req, res) {
     },
     json: true
   }
-  request.post(authOptions, function(error, response, body) {
+  request.post(authOptions, function (error, response, body) {
     var refresh_token = body.refresh_token;
     var access_token = body.access_token;
     let uri = 'http://localhost:3000/spotify-logged-in'
-    res.redirect(uri + '?access_token=' + access_token + '&refresh_token=' + refresh_token);
+    res.redirect(uri + '/' + access_token + '/' + refresh_token);
   });
+});
+
+/* Put Spotify details on User in Database */
+
+router.post('/add-spotify', (req, res) => {
+  console.log(req.body);
+  User.findOneAndUpdate(
+    {
+      email: req.body.email
+    },
+    {
+      spotify: req.body.spotify,
+      spotifyId: req.body.spotifyId,
+      spotifyRefreshToken: req.body.spotifyRefreshToken
+    })
+    .then(res.send({ important_message: 'FARTS' }));
 });
 
 /* Login with Spotify already linked */

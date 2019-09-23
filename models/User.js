@@ -23,17 +23,14 @@ const UserSchema = new mongoose.Schema({
     spotify: {
         type: Boolean,
         default: false,
-        required: true
     },
     spotifyId: {
         type: String,
         default: null,
-        required: true
     },
     spotifyRefreshToken: {
         type: String,
         default: null,
-        required: true
     },
     date: {
         type: Date,
