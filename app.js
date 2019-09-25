@@ -10,10 +10,10 @@ var cors = require('cors');
 var passport = require('passport');
 
 var indexRouter = require('./routes/index');
-var authRouter = require('./routes/auth');
-var signupRouter = require('./routes/signup');
 var usersRouter = require('./routes/users');
-var postRouter = require('./routes/posts');
+var authRouter = require('./routes/auth');
+var postRouter = require('./routes/post');
+var signupRouter = require('./routes/signup');
 
 var app = express();
 
@@ -43,27 +43,17 @@ require('./services/passport')(passport);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
-app.use(function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  next();
-});
-
-app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use('/public', express.static(__dirname + '/public'));
 
-// Import Routes
 app.use('/', indexRouter);
-app.use('/signup', signupRouter);
 app.use('/users', usersRouter);
 app.use('/api/user', authRouter);
 app.use('/api/posts', postRouter);
+app.use('/signup', signupRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

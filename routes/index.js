@@ -1,6 +1,7 @@
 const express = require('express');
 const Router = express.Router();
 const Request = require('request');
+
 // For passport
 // const validateRegisterInput = require('../services/register');
 const User = require('../models/User');
@@ -9,7 +10,7 @@ const SPOTIFY_CLIENT_SECRET = "88c179d7425449beb19bacd9d5146fad";
 const redirect_uri = 'http://localhost:3001/callback';
 
 
-// Spotify Login
+/* Spotify Login */
 
 Router.get('/spotify-login', function (req, res) {
   var scopes = 'user-read-private user-read-email';
@@ -20,7 +21,7 @@ Router.get('/spotify-login', function (req, res) {
     '&redirect_uri=' + redirect_uri);
 });
 
-// Callback after Logged in to Spotify
+/* Callback after Logged in to Spotify */
 
 Router.get('/callback', function (req, res) {
   let code = req.query.code || null
@@ -43,7 +44,7 @@ Router.get('/callback', function (req, res) {
   });
 });
 
-// Put Spotify details on User in Database
+/* Put Spotify details on User in Database */
 
 Router.post('/add-spotify', (req, res) => {
   console.log(req.body);
@@ -59,7 +60,7 @@ Router.post('/add-spotify', (req, res) => {
     .then(res.send({ important_message: 'FARTS' }));
 });
 
-// Login with Spotify already linked
+/* Login with Spotify already linked */
 
 Router.post('/has-spotify/:refresh_token', (req, res) => {
   let refresh_token = req.params.refresh_token;
@@ -78,7 +79,7 @@ Router.post('/has-spotify/:refresh_token', (req, res) => {
   });
 });
 
-// Retrieve User Info
+/* Retrieve User Info */
 
 Router.route('/user-info').get((req, res) => {
   User.find()
