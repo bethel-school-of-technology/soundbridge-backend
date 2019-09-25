@@ -1,11 +1,11 @@
 var express = require('express');
-var router = express.Router();
+var Router = express.Router();
 var User = require('../models/User');
 var {registerValidation, loginValidation} = require('../services/validation');
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 
-router.post('/register', async (req, res, next) => {
+Router.post('/register', async (req, res, next) => {
 
     //Data Validation for Users
     const { error } = registerValidation(req.body);
@@ -42,7 +42,7 @@ router.post('/register', async (req, res, next) => {
 
 //Login
 
-router.post('/login',  async (req,res) => {
+Router.post('/login',  async (req,res) => {
      //Data Validation for Users
      const { error } = loginValidation(req.body);
      if(error) return res.status(400).send(error.details[0].message);
@@ -63,4 +63,4 @@ router.post('/login',  async (req,res) => {
  
 })
 
-module.exports = router;
+module.exports = Router;

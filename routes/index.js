@@ -1,6 +1,6 @@
 const express = require('express');
-const router = express.Router();
-const request = require('request');
+const Router = express.Router();
+const Request = require('request');
 
 // For passport
 // const validateRegisterInput = require('../services/register');
@@ -12,7 +12,7 @@ const redirect_uri = 'http://localhost:3001/callback';
 
 /* Spotify Login */
 
-router.get('/spotify-login', function (req, res) {
+Router.get('/spotify-login', function (req, res) {
   var scopes = 'user-read-private user-read-email';
   res.redirect('https://accounts.spotify.com/authorize' +
     '?response_type=code' +
@@ -23,7 +23,7 @@ router.get('/spotify-login', function (req, res) {
 
 /* Callback after Logged in to Spotify */
 
-router.get('/callback', function (req, res) {
+Router.get('/callback', function (req, res) {
   let code = req.query.code || null
   let authOptions = {
     url: 'https://accounts.spotify.com/api/token',
@@ -36,7 +36,7 @@ router.get('/callback', function (req, res) {
     },
     json: true
   }
-  request.post(authOptions, function (error, response, body) {
+  Request.post(authOptions, function (error, response, body) {
     var refresh_token = body.refresh_token;
     var access_token = body.access_token;
     let uri = 'http://localhost:3000/spotify-logged-in'
@@ -46,7 +46,7 @@ router.get('/callback', function (req, res) {
 
 /* Put Spotify details on User in Database */
 
-router.post('/add-spotify', (req, res) => {
+Router.post('/add-spotify', (req, res) => {
   console.log(req.body);
   User.findOneAndUpdate(
     {
@@ -62,7 +62,7 @@ router.post('/add-spotify', (req, res) => {
 
 /* Login with Spotify already linked */
 
-router.post('/has-spotify/:refresh_token', (req, res) => {
+Router.post('/has-spotify/:refresh_token', (req, res) => {
   let refresh_token = req.params.refresh_token;
   let authOptions = {
     url: 'https://accounts.spotify.com/api/token',
@@ -74,17 +74,17 @@ router.post('/has-spotify/:refresh_token', (req, res) => {
     },
     json: true
   }
-  request.post(authOptions, (error, response, body) => {
+  Request.post(authOptions, (error, response, body) => {
     res.send(body.access_token);
   });
 });
 
 /* Retrieve User Info */
 
-router.route('/user-info').get((req, res) => {
+Router.route('/user-info').get((req, res) => {
   User.find()
     .then(Users => res.json(Users))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-module.exports = router;
+module.exports = Router;
