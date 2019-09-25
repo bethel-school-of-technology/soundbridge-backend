@@ -2,11 +2,11 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
 var dotenv = require('dotenv');
 var cors = require('cors');
-var bodyParser = require('body-parser');
 var passport = require('passport');
 
 var indexRouter = require('./routes/index');
@@ -48,7 +48,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/auth', authRouter);
+app.use('/api/user', authRouter);
 app.use('/signup', signupRouter);
 
 // catch 404 and forward to error handler
