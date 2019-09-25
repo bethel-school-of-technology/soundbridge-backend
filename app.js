@@ -12,6 +12,8 @@ var passport = require('passport');
 var indexRouter = require('./routes/index');
 var authRouter = require('./routes/auth');
 var signupRouter = require('./routes/signup');
+var usersRouter = require('./routes/users');
+var postRouter = require('./routes/posts');
 
 var app = express();
 
