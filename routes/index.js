@@ -7,8 +7,11 @@ const Request = require('request');
 const User = require('../models/User');
 const SPOTIFY_CLIENT_ID = "94f0fc9ce18b4809bf951ec27dee0021";
 const SPOTIFY_CLIENT_SECRET = "88c179d7425449beb19bacd9d5146fad";
-const redirect_uri = 'http://localhost:3001/callback';
+const redirect_uri = 'http://localhost:4000/callback';
 
+Router.get('/', (req, res) => {
+  res.render('index');
+});
 
 /* Spotify Login */
 
@@ -56,8 +59,9 @@ Router.post('/add-spotify', (req, res) => {
       spotify: req.body.spotify,
       spotifyId: req.body.spotifyId,
       spotifyRefreshToken: req.body.spotifyRefreshToken
-    })
-    .then(res.send({ important_message: 'FARTS' }));
+    }, (err, doc) => {
+      res.send(doc)
+    });
 });
 
 /* Login with Spotify already linked */
