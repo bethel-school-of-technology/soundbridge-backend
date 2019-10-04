@@ -3,9 +3,7 @@ const Post = require('../models/Post');
 const Comment = require('../models/Comment');
 
 Router.get('/user-posts/:id', async (req, res) => {
-    console.log('params: ', req.params);
     const posts = await Post.find({ userId: req.params.id });
-    console.log(posts);
     res.send(posts);
 });
 
