@@ -43,6 +43,8 @@ Router.post('/register', async (req, res, next) => {
 //Login
 
 Router.post('/login',  async (req,res) => {
+
+    console.log('what');
      //Data Validation for Users
      const { error } = loginValidation(req.body);
      if(error) return res.status(400).send(error.details[0].message);

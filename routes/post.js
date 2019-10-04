@@ -2,7 +2,14 @@ const Router = require('express').Router();
 const Post = require('../models/Post');
 const Comment = require('../models/Comment');
 
-Router.post('/', async (req,res) => {
+Router.get('/user-posts/:id', async (req, res) => {
+    console.log('params: ', req.params);
+    const posts = await Post.find({ userId: req.params.id });
+    console.log(posts);
+    res.send(posts);
+});
+
+Router.post('/', async (req, res) => {
     const post = new Post({
         userId: req.body.userId,
         userName: req.body.userName,
@@ -17,7 +24,7 @@ Router.post('/', async (req,res) => {
     }
 });
 
-Router.post('/comment', async (req,res) => {
+Router.post('/comment', async (req, res) => {
     const comment = new Comment({
         userId: req.body.userId,
         userName: req.body.userName,
