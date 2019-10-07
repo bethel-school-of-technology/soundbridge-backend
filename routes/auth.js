@@ -44,7 +44,6 @@ Router.post('/register', async (req, res, next) => {
 
 Router.post('/login',  async (req,res) => {
 
-    console.log('what');
      //Data Validation for Users
      const { error } = loginValidation(req.body);
      if(error) return res.status(400).send(error.details[0].message);
@@ -57,7 +56,7 @@ Router.post('/login',  async (req,res) => {
     const validPass = await bcrypt.compare(req.body.password, user.password);
     if(!validPass) return res.status(400).send("Invalid Password");
 
-    //Create and Assign a JWT
+    // Create and Assign a JWT
     // const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
     // res.header('auth-Token', token).send(token);
 
