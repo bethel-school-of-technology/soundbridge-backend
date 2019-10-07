@@ -26,12 +26,12 @@ Router.post('/comment', async (req, res) => {
     const comment = new Comment({
         userId: req.body.userId,
         userName: req.body.userName,
-        title: req.body.title,
+        postId: req.body.postId,
         body: req.body.body
     })
     try {
         const savedComment = await comment.save();
-        res.send(req.body);
+        res.send(saveComment);
     } catch (err) {
         res.send(err);
     }

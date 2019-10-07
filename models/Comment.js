@@ -9,9 +9,9 @@ const CommentSchema = new mongoose.Schema({
         type: String,
         require: true
     },
-    title: {
+    postId: {
         type: String,
-        required: true
+        require: true
     },
     body: {
         type: String,
