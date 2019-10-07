@@ -16,7 +16,7 @@ Router.post('/', async (req, res) => {
     })
     try {
         const savedPost = await post.save();
-        res.send(req.body);
+        res.send(savedPost);
     } catch (err) {
         res.send(err);
     }
