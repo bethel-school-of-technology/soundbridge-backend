@@ -2,12 +2,20 @@ const Router = require('express').Router();
 const Post = require('../models/Post');
 const Comment = require('../models/Comment');
 
+// Get all posts
+Router.get('/get-posts', async (req, res) => {
+    const allPosts = await Post.find();
+    res.send(allPosts);
+});
+
+// Get all user posts
 Router.get('/user-posts/:id', async (req, res) => {
     const posts = await Post.find({ userId: req.params.id });
     console.log('who was that')
     res.send(posts);
 });
 
+// Create new post
 Router.post('/', async (req, res) => {
     const post = new Post({
         userId: req.body.userId,
@@ -23,6 +31,7 @@ Router.post('/', async (req, res) => {
     }
 });
 
+// Create new comment
 Router.post('/comment', async (req, res) => {
     const comment = new Comment({
         userId: req.body.userId,
