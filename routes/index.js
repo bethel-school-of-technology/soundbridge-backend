@@ -16,7 +16,7 @@ Router.get('/', (req, res) => {
 /* Spotify Login */
 
 Router.get('/spotify-login', function (req, res) {
-  var scopes = 'user-read-private user-read-email';
+  var scopes = 'user-read-private user-read-email user-library-read user-library-modify';
   res.redirect('https://accounts.spotify.com/authorize' +
     '?response_type=code' +
     '&client_id=' + SPOTIFY_CLIENT_ID +
