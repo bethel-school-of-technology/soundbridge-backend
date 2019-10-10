@@ -42,6 +42,7 @@ Router.get('/callback', function (req, res) {
   Request.post(authOptions, function (error, response, body) {
     var refresh_token = body.refresh_token;
     var access_token = body.access_token;
+    // let uri = 'http://localhost:3000/spotify-logged-in'
     let uri = 'https://soundbridge.netlify.com/spotify-logged-in'
     res.redirect(uri + '/' + access_token + '/' + refresh_token);
   });
