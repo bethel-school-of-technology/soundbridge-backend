@@ -7,7 +7,8 @@ const Request = require('request');
 const User = require('../models/User');
 const SPOTIFY_CLIENT_ID = "94f0fc9ce18b4809bf951ec27dee0021";
 const SPOTIFY_CLIENT_SECRET = "88c179d7425449beb19bacd9d5146fad";
-const redirect_uri = 'http://localhost:4000/callback';
+const redirect_uri = 'https://soundbridge.netlify.com/callback';
+// const redirect_uri = 'http://localhost:4000/callback';
 
 Router.get('/', (req, res) => {
   res.render('index');
