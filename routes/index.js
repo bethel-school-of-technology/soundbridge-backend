@@ -16,7 +16,7 @@ Router.get('/', (req, res) => {
 /* Spotify Login */
 
 Router.get('/spotify-login', function (req, res) {
-  var scopes = 'user-read-private user-read-email';
+  var scopes = 'user-read-private user-read-email user-library-read user-library-modify';
   res.redirect('https://accounts.spotify.com/authorize' +
     '?response_type=code' +
     '&client_id=' + SPOTIFY_CLIENT_ID +
@@ -42,7 +42,7 @@ Router.get('/callback', function (req, res) {
   Request.post(authOptions, function (error, response, body) {
     var refresh_token = body.refresh_token;
     var access_token = body.access_token;
-    let uri = 'http://localhost:3000/spotify-logged-in'
+    let uri = 'https://soundbridge.netlify.com/spotify-logged-in'
     res.redirect(uri + '/' + access_token + '/' + refresh_token);
   });
 });
