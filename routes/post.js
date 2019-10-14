@@ -31,6 +31,12 @@ Router.post('/', async (req, res) => {
     }
 });
 
+// Get comments for post
+Router.get('/get-comments/:postId', async (req, res) => {
+    const allComments = await Comment.find({ postId: req.params.postId });
+    res.send(allComments);
+});
+
 // Create new comment
 Router.post('/comment', async (req, res) => {
     const comment = new Comment({
