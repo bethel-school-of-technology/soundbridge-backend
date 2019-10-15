@@ -7,8 +7,8 @@ const Request = require('request');
 const User = require('../models/User');
 const SPOTIFY_CLIENT_ID = "94f0fc9ce18b4809bf951ec27dee0021";
 const SPOTIFY_CLIENT_SECRET = "88c179d7425449beb19bacd9d5146fad";
-// const redirect_uri = 'https://soundbridge.herokuapp.com/callback';
-const redirect_uri = 'http://localhost:4000/callback';
+const redirect_uri = 'https://soundbridge.herokuapp.com/callback';
+// const redirect_uri = 'http://localhost:4000/callback';
 
 Router.get('/', (req, res) => {
   res.render('index');
@@ -43,8 +43,8 @@ Router.get('/callback', function (req, res) {
   Request.post(authOptions, function (error, response, body) {
     var refresh_token = body.refresh_token;
     var access_token = body.access_token;
-    let uri = 'http://localhost:3000/spotify-logged-in';
-    // let uri = 'https://soundbridge.netlify.com/spotify-logged-in'
+    // let uri = 'http://localhost:3000/spotify-logged-in';
+    let uri = 'https://soundbridge.netlify.com/spotify-logged-in'
     res.redirect(uri + '/' + access_token + '/' + refresh_token);
   });
 });
