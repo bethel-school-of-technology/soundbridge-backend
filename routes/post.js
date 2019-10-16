@@ -11,7 +11,6 @@ Router.get('/get-posts', async (req, res) => {
 // Get all user posts
 Router.get('/user-posts/:id', async (req, res) => {
     const posts = await Post.find({ userId: req.params.id });
-    console.log('who was that')
     res.send(posts);
 });
 
@@ -31,6 +30,13 @@ Router.post('/', async (req, res) => {
     }
 });
 
+// Delete post
+Router.delete('/delete-post', async (req, res) => {
+    await Post.findByIdAndDelete(req.query.postId, err => {
+        res.send(err)
+    });
+});
+
 // Get comments for post
 Router.get('/get-comments/:postId', async (req, res) => {
     const allComments = await Comment.find({ postId: req.params.postId });
@@ -47,10 +53,17 @@ Router.post('/comment', async (req, res) => {
     })
     try {
         const savedComment = await comment.save();
-        res.send(saveComment);
+        res.send(savedComment);
     } catch (err) {
         res.send(err);
     }
+});
+
+// Delete Comment
+Router.delete('/delete-comment', async (req, res) => {
+    await Comment.findByIdAndDelete(req.query.commentId, err => {
+        res.send(err);
+    });
 });
 
 
